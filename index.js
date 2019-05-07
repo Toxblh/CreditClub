@@ -4,7 +4,7 @@ const creds = require('./creds')
 async function getScore({ login, pass, word }) {
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
-  console.info('Open site')
+
   await page.goto('https://clubs.moneysavingexpert.com/creditclub/login', { waitUntil: 'networkidle2' })
   await page.waitFor(1000)
   await page.evaluate(
@@ -23,7 +23,7 @@ async function getScore({ login, pass, word }) {
     login,
     pass
   )
-  console.info('Login/Pass')
+
   await page.waitForNavigation()
 
   await page.evaluate(eWord => {
@@ -45,13 +45,9 @@ async function getScore({ login, pass, word }) {
     document.querySelector('#sign-in-2FA-authentication').click()
   }, word)
 
-  console.info('2FA')
-
   await page.waitForNavigation()
-  await page.waitFor(5000)
 
-  console.info('Get data')
-
+  await page.waitForSelector('.experian-score__score-text--large')
   const updated_date = await page.evaluate(() => document.querySelector('.text--no-margin').textContent)
   const creditScore = await page.evaluate(
     () => document.querySelector('.experian-score__score-text--large').textContent
