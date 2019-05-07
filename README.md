@@ -14,3 +14,21 @@ Score: 932
 4. `yarn` or `npm i`
 5. `node ./index.js`
 6. Your score already front of you
+
+
+### Lib version
+1. `npm i credit-club`
+2. Use
+```js
+const getCreditClubScore = require('credit-club')
+
+getCreditClubScore({
+  login: creds.login,
+  pass: creds.pass,
+  word: creds.word
+}).then(score => {
+  console.log('Date:', score.updated_date)
+  console.log('Score:', score.score)
+})
+
+```
