@@ -1,3 +1,7 @@
+[![Latest Stable Version](https://img.shields.io/npm/v/credit-club.svg)](https://www.npmjs.com/package/credit-club)
+[![License](https://img.shields.io/npm/l/credit-club.svg)](https://www.npmjs.com/package/credit-club)
+[![NPM Downloads](https://img.shields.io/npm/dt/credit-club.svg)](https://www.npmjs.com/package/credit-club)
+
 # Collect credit score from CreditClub
 A simple way to collect your score from clubs.moneysavingexpert.com/creditclub
 
