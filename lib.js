@@ -4,7 +4,9 @@ async function getCreditClubScore({ login, pass, word }) {
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
 
-  await page.goto('https://clubs.moneysavingexpert.com/creditclub/login', { waitUntil: 'networkidle2' })
+  await page.goto('https://clubs.moneysavingexpert.com/creditclub/login', {
+    waitUntil: 'networkidle2',
+  })
   await page.waitFor(1000)
   await page.evaluate(
     (eLogin, ePass) => {
@@ -20,7 +22,7 @@ async function getCreditClubScore({ login, pass, word }) {
       document.querySelector('button[type=submit]').click()
     },
     login,
-    pass
+    pass,
   )
 
   await page.waitForNavigation()
@@ -47,14 +49,16 @@ async function getCreditClubScore({ login, pass, word }) {
   await page.waitForNavigation()
 
   await page.waitForSelector('.experian-score__score-text--large')
-  const updated_date = await page.evaluate(() => document.querySelector('.text--no-margin').textContent)
+  const updated_date = await page.evaluate(
+    () => document.querySelector('.text--no-margin').textContent,
+  )
   const creditScore = await page.evaluate(
-    () => document.querySelector('.experian-score__score-text--large').textContent
+    () => document.querySelector('.experian-score__score-text--large').textContent,
   )
 
   const output = {
     updated_date: updated_date.slice(15),
-    score: creditScore
+    score: creditScore,
   }
 
   await browser.close()
@@ -63,4 +67,3 @@ async function getCreditClubScore({ login, pass, word }) {
 }
 
 module.exports = getCreditClubScore
-
