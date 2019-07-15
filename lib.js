@@ -1,9 +1,7 @@
 const puppeteer = require('puppeteer')
 
 async function getCreditClubScore({ login, pass, word }) {
-  const browser = await puppeteer.launch({
-    headless: false
-  })
+  const browser = await puppeteer.launch()
   const page = await browser.newPage()
 
   await page.goto('https://clubs.moneysavingexpert.com/creditclub/login', {
