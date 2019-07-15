@@ -1,7 +1,9 @@
 const puppeteer = require('puppeteer')
 
 async function getCreditClubScore({ login, pass, word }) {
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({
+    headless: false
+  })
   const page = await browser.newPage()
 
   await page.goto('https://clubs.moneysavingexpert.com/creditclub/login', {
@@ -47,6 +49,15 @@ async function getCreditClubScore({ login, pass, word }) {
   }, word)
 
   await page.waitForNavigation()
+
+  if (await page.waitForSelector('form[name=reconfirmDetails]') !== null) {
+    await page.evaluate(
+      () => {
+        document.querySelector('#details-correct-yes').click()
+        document.querySelector('#reconfirm-details').click()
+      }
+    )
+  }
 
   await page.waitForSelector('.experian-score__score-text--large')
   const updated_date = await page.evaluate(
