@@ -1,0 +1,5 @@
+version: '3'
+services:
+  credit-club-score:
+    build: .
+    restart: always
