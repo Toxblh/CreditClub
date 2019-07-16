@@ -48,25 +48,35 @@ async function getCreditClubScore({ login, pass, word }) {
 
   await page.waitForNavigation()
 
-  if (await page.waitForSelector('form[name=reconfirmDetails]') !== null) {
-    await page.evaluate(
-      () => {
-        document.querySelector('#details-correct-yes').click()
-        document.querySelector('#reconfirm-details').click()
-      }
-    )
-  }
+  try {
+    await page.waitForSelector('form[name=reconfirmDetails]', {
+      timeout: 5000,
+    })
+
+    await page.evaluate(() => {
+      document.querySelector('#details-correct-yes').click()
+      document.querySelector('#reconfirm-details').click()
+    })
+  } catch (e) {}
 
   await page.waitForSelector('.experian-score__score-text--large')
-  const updated_date = await page.evaluate(
+  const report_date = await page.evaluate(
     () => document.querySelector('.text--no-margin').textContent,
+  )
+  const updated_date = await page.evaluate(
+    () => document.querySelectorAll('.text--no-margin')[1].textContent,
   )
   const creditScore = await page.evaluate(
     () => document.querySelector('.experian-score__score-text--large').textContent,
   )
 
+  let todayDate = new Date()
+  let reportDate = new Date(updated_date.slice(17))
+  let daysUntil = Math.ceil((reportDate - todayDate) / (1000 * 60 * 60 * 24))
+
   const output = {
-    updated_date: updated_date.slice(15),
+    report_date: report_date.slice(15),
+    updated_date: daysUntil,
     score: creditScore,
   }
 
