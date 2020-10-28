@@ -11,6 +11,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "puppeteer": "^5.4.0"
+    "puppeteer": "^5.4.1"
   }
 }
